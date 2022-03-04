@@ -14,7 +14,6 @@ import java.util.HashSet;
 public class PositionalIndex {
     String[] myDocs;
     ArrayList<String> termDictionary;
-//    ArrayList<ArrayList<Doc>> docLists;
     HashMap<String, ArrayList<Doc>> docLists;
 
     /**
@@ -36,11 +35,15 @@ public class PositionalIndex {
 
                 if(termDictionary.contains(tokens[j])){
                     docList = docLists.get(tokens[j]);
-
                     boolean check = false;
+
                     for(Doc doc :docList){
                         if(doc.docId == i){
-                            doc.positionList.add(j);
+
+//eeee
+//                            doc.positionList.add(j);
+                            doc.insertPosition(j);
+
                             check = true;
                         }
                     }
@@ -90,38 +93,6 @@ public class PositionalIndex {
         ArrayList<Doc> intersectList = new ArrayList<>();
         //TASK2: TO BE COMPLETED
 //        for (Doc doc1 : post1){
-        for (int q = 0 ;  q < post1.size() ; q++){
-            for(int w = 0 ;  w < post2.size(); w++){
-                Doc doc1 = post1.get(q);
-                Doc doc2 = post2.get(w);
-
-                if(doc1.docId == doc2.docId){
-                    ArrayList<Integer> temp = doc1.positionList;
-                    for (int i = 0; i < doc2.positionList.size(); i++) {
-                        temp.add(doc2.positionList.get(i));
-                    }
-                    Collections.sort(temp);
-
-                    for(int i = 0; i < temp.size()-1 ; i++){
-                        int indexInterval = temp.get(i+1) - temp.get(i);
-                        if(indexInterval == 1){
-                            intersectList.add(doc1);
-                        }
-                    }
-                }
-            }
-        }
-        return intersectList; // To be modified
-    }
-
-
-
-    public ArrayList<Doc> intersect2(ArrayList<Doc> post1, ArrayList<Doc> post2)
-    {
-
-        ArrayList<Doc> intersectList = new ArrayList<>();
-        //TASK2: TO BE COMPLETED
-//        for (Doc doc1 : post1){
         HashSet<Integer> check = new HashSet<>();
         for (int q = 0 ;  q < post1.size() ; q++){
             for(int w = 0 ;  w < post2.size(); w++){
@@ -155,12 +126,15 @@ public class PositionalIndex {
     {
         //TASK3: TO BE COMPLETED
         ArrayList<Doc> queryResult = new ArrayList<>();
-        if(termDictionary.contains(query[0]) & termDictionary.contains(query[1]) ){
+        if(query.length != 2) {
+            System.out.println("Search Keywords Error: Phrase query only affords two keywords search");
+            return null;
+        }
 
+        if(termDictionary.contains(query[0]) & termDictionary.contains(query[1]) ){
             ArrayList<Doc> posting1 = docLists.get(query[0]);
             ArrayList<Doc> posting2 = docLists.get(query[1]);
-            queryResult = intersect2(posting1, posting2);
-            
+            queryResult = intersect(posting1, posting2);
         }else{
             System.out.println("The words are not searched in the list");
         }
@@ -181,39 +155,45 @@ public class PositionalIndex {
 
 
         //TASK4: TO BE COMPLETED: design and test phrase queries with 2-5 terms
-        System.out.println("------------------ Test 1 ------------------");
+        System.out.println("\n------------------ Test 1 ------------------");
         String SearchTerm = "text mining";
         String[] search = SearchTerm.split(" ");
         ArrayList<Doc> queryResult = pi.phraseQuery(search);
         for(Doc doc:queryResult) System.out.println("Document ID is : " + doc.docId);
 
 
-        System.out.println("------------------ Test 2 ------------------");
+        System.out.println("\n------------------ Test 2 ------------------");
         SearchTerm = "big data";
         search = SearchTerm.split(" ");
         queryResult = pi.phraseQuery(search);
         for(Doc doc:queryResult) System.out.println("Document ID is : " + doc.docId);
 
 
-        System.out.println("------------------ Test 3 ------------------");
+        System.out.println("\n------------------ Test 3 ------------------");
         SearchTerm = "nlp after";
         search = SearchTerm.split(" ");
         queryResult = pi.phraseQuery(search);
         for(Doc doc:queryResult) System.out.println("Document ID is : " + doc.docId);
 
 
-        System.out.println("------------------ Test 4 ------------------");
+        System.out.println("\n------------------ Test 4 ------------------");
         SearchTerm = "warehouse over";
         search = SearchTerm.split(" ");
         queryResult = pi.phraseQuery(search);
         for(Doc doc:queryResult) System.out.println("Document ID is : " + doc.docId);
 
 
-        System.out.println("------------------ Test 5 ------------------");
+        System.out.println("\n------------------ Test 5 ------------------");
         SearchTerm = "over big";
         search = SearchTerm.split(" ");
         queryResult = pi.phraseQuery(search);
-        System.out.println(queryResult);
+        for(Doc doc:queryResult) System.out.println("Document ID is : " + doc.docId);
+
+
+        System.out.println("\n------------------ Test 6 ------------------");
+        SearchTerm = "over";
+        search = SearchTerm.split(" ");
+        queryResult = pi.phraseQuery(search);
         for(Doc doc:queryResult) System.out.println("Document ID is : " + doc.docId);
     }
 }
