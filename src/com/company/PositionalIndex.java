@@ -24,9 +24,9 @@ public class PositionalIndex {
     public PositionalIndex(String[] docs) {
 
         myDocs = docs;
-        termDictionary = new ArrayList<String>();             // Postings list
-        docLists = new HashMap<>();     // This is the list of the postings list
-        ArrayList<Doc> docList = new ArrayList<>();
+        termDictionary = new ArrayList<String>();
+        docLists = new HashMap<>();
+        ArrayList<Doc> docList;
 
         for(int i = 0; i < myDocs.length; i++){
 
@@ -39,11 +39,7 @@ public class PositionalIndex {
 
                     for(Doc doc :docList){
                         if(doc.docId == i){
-
-//eeee
-//                            doc.positionList.add(j);
                             doc.insertPosition(j);
-
                             check = true;
                         }
                     }
@@ -61,6 +57,7 @@ public class PositionalIndex {
             }
         }
     }
+
 
     /**
      * Return string representation of a positional index
@@ -82,17 +79,14 @@ public class PositionalIndex {
     }
 
     /**
-     *
+     * Check two postings list that has same doc ID to find the adjacent location
      * @param post1 first postings
      * @param post2 second postings
      * @return merged result of two postings
      */
-    public ArrayList<Doc> intersect(ArrayList<Doc> post1, ArrayList<Doc> post2)
-    {
-
+    public ArrayList<Doc> intersect(ArrayList<Doc> post1, ArrayList<Doc> post2) {
         ArrayList<Doc> intersectList = new ArrayList<>();
         //TASK2: TO BE COMPLETED
-//        for (Doc doc1 : post1){
         HashSet<Integer> check = new HashSet<>();
         for (int q = 0 ;  q < post1.size() ; q++){
             for(int w = 0 ;  w < post2.size(); w++){
@@ -113,12 +107,12 @@ public class PositionalIndex {
                 }
             }
         }
-        return intersectList; // To be modified
+        return intersectList;
     }
 
 
     /**
-     *
+     * Get phrase query result
      * @param query a phrase query that consists of any number of terms in the sequential order
      * @return docIds of documents that contain the phrase
      */
@@ -138,8 +132,7 @@ public class PositionalIndex {
         }else{
             System.out.println("The words are not searched in the list");
         }
-
-        return queryResult; // To be modified
+        return queryResult;
     }
 
 
