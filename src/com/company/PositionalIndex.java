@@ -3,6 +3,7 @@ package com.company;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * ISTE-612-2215 Lab #2
@@ -113,6 +114,38 @@ public class PositionalIndex {
         return intersectList; // To be modified
     }
 
+
+
+    public ArrayList<Doc> intersect2(ArrayList<Doc> post1, ArrayList<Doc> post2)
+    {
+
+        ArrayList<Doc> intersectList = new ArrayList<>();
+        //TASK2: TO BE COMPLETED
+//        for (Doc doc1 : post1){
+        HashSet<Integer> check = new HashSet<>();
+        for (int q = 0 ;  q < post1.size() ; q++){
+            for(int w = 0 ;  w < post2.size(); w++){
+                Doc doc1 = post1.get(q);
+                Doc doc2 = post2.get(w);
+
+                if(doc1.docId == doc2.docId){
+                    for (int i = 0; i < doc1.positionList.size(); i++) {
+                        for (int e = 0; e < doc2.positionList.size(); e++) {
+                            if(doc2.positionList.get(e) - doc1.positionList.get(i) == 1){
+                                if(!check.contains(doc1.docId)){
+                                    intersectList.add(doc1);
+                                    check.add(doc1.docId);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return intersectList; // To be modified
+    }
+
+
     /**
      *
      * @param query a phrase query that consists of any number of terms in the sequential order
@@ -126,7 +159,7 @@ public class PositionalIndex {
 
             ArrayList<Doc> posting1 = docLists.get(query[0]);
             ArrayList<Doc> posting2 = docLists.get(query[1]);
-            queryResult = intersect(posting1, posting2);
+            queryResult = intersect2(posting1, posting2);
             
         }else{
             System.out.println("The words are not searched in the list");
@@ -146,6 +179,8 @@ public class PositionalIndex {
         System.out.print(pi.docLists);
         System.out.println();
 
+
+        //TASK4: TO BE COMPLETED: design and test phrase queries with 2-5 terms
         System.out.println("------------------ Test 1 ------------------");
         String SearchTerm = "text mining";
         String[] search = SearchTerm.split(" ");
@@ -174,15 +209,12 @@ public class PositionalIndex {
         for(Doc doc:queryResult) System.out.println("Document ID is : " + doc.docId);
 
 
-        System.out.println("------------------ Test 5 ------------------");   // Two lists are overllapped !!!!!!!!!!! needed to fix!!!!!!!!!!!! :)
+        System.out.println("------------------ Test 5 ------------------");
         SearchTerm = "over big";
         search = SearchTerm.split(" ");
         queryResult = pi.phraseQuery(search);
         System.out.println(queryResult);
         for(Doc doc:queryResult) System.out.println("Document ID is : " + doc.docId);
-
-
-        //TASK4: TO BE COMPLETED: design and test phrase queries with 2-5 terms
     }
 }
 
