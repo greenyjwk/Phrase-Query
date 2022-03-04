@@ -8,7 +8,7 @@ import java.util.HashSet;
 /**
  * ISTE-612-2215 Lab #2
  * Ji Woong Kim
- * March 3 2022
+ * March 4 2022
  */
 
 public class PositionalIndex {
@@ -94,19 +94,23 @@ public class PositionalIndex {
                 Doc doc2 = post2.get(w);
 
                 if(doc1.docId == doc2.docId){
+                    Doc intersectDoc = new Doc(doc2.docId);
                     for (int i = 0; i < doc1.positionList.size(); i++) {
                         for (int e = 0; e < doc2.positionList.size(); e++) {
+
                             if(doc2.positionList.get(e) - doc1.positionList.get(i) == 1){
                                 if(!check.contains(doc1.docId)){
-                                    intersectList.add(doc1);
-                                    check.add(doc1.docId);
+                                    intersectDoc.insertPosition( doc2.positionList.get(e) );
+                                    check.add(doc2.docId);
                                 }
                             }
                         }
                     }
+                    intersectList.add(intersectDoc);
                 }
             }
         }
+
         return intersectList;
     }
 
@@ -120,18 +124,25 @@ public class PositionalIndex {
     {
         //TASK3: TO BE COMPLETED
         ArrayList<Doc> queryResult = new ArrayList<>();
-        if(query.length != 2) {
+        if(query.length < 2) {
             System.out.println("Search Keywords Error: Phrase query only affords two keywords search");
             return null;
         }
 
-        if(termDictionary.contains(query[0]) & termDictionary.contains(query[1]) ){
+        if(termDictionary.contains(query[0]) & termDictionary.contains(query[1]) ) {
             ArrayList<Doc> posting1 = docLists.get(query[0]);
             ArrayList<Doc> posting2 = docLists.get(query[1]);
             queryResult = intersect(posting1, posting2);
-        }else{
-            System.out.println("The words are not searched in the list");
         }
+
+        for(int i = 1; i < query.length - 1; i++) {
+            if (termDictionary.contains(query[i]) & termDictionary.contains(query[i + 1])) {
+                ArrayList<Doc> posting1 = queryResult;
+                ArrayList<Doc> posting2 = docLists.get(query[i + 1]);
+                queryResult = intersect(posting1, posting2);
+            } else System.out.println("The words are not searched in the list");
+        }
+
         return queryResult;
     }
 
@@ -146,12 +157,12 @@ public class PositionalIndex {
         System.out.print(pi.docLists);
         System.out.println();
 
-
         //TASK4: TO BE COMPLETED: design and test phrase queries with 2-5 terms
         System.out.println("\n------------------ Test 1 ------------------");
         String SearchTerm = "text mining";
         String[] search = SearchTerm.split(" ");
         ArrayList<Doc> queryResult = pi.phraseQuery(search);
+        System.out.println("Search Term: " + SearchTerm);
         for(Doc doc:queryResult) System.out.println("Document ID is : " + doc.docId);
 
 
@@ -159,35 +170,47 @@ public class PositionalIndex {
         SearchTerm = "big data";
         search = SearchTerm.split(" ");
         queryResult = pi.phraseQuery(search);
-        for(Doc doc:queryResult) System.out.println("Document ID is : " + doc.docId);
+        System.out.println("Search Term: " + SearchTerm);
+        for(Doc doc:queryResult) System.out.println("Search Result: Document ID is : " + doc.docId);
 
 
         System.out.println("\n------------------ Test 3 ------------------");
         SearchTerm = "nlp after";
         search = SearchTerm.split(" ");
         queryResult = pi.phraseQuery(search);
-        for(Doc doc:queryResult) System.out.println("Document ID is : " + doc.docId);
+        System.out.println("Search Term: " + SearchTerm);
+        for(Doc doc:queryResult) System.out.println("Search Result: Document ID is : " + doc.docId);
 
 
         System.out.println("\n------------------ Test 4 ------------------");
         SearchTerm = "warehouse over";
         search = SearchTerm.split(" ");
         queryResult = pi.phraseQuery(search);
-        for(Doc doc:queryResult) System.out.println("Document ID is : " + doc.docId);
+        System.out.println("Search Term: " + SearchTerm);
+        for(Doc doc:queryResult) System.out.println("Search Result: Document ID is : " + doc.docId);
 
 
         System.out.println("\n------------------ Test 5 ------------------");
         SearchTerm = "over big";
         search = SearchTerm.split(" ");
         queryResult = pi.phraseQuery(search);
-        for(Doc doc:queryResult) System.out.println("Document ID is : " + doc.docId);
-
+        System.out.println("Search Term: " + SearchTerm);
+        for(Doc doc:queryResult) System.out.println("Search Result: Document ID is : " + doc.docId);
 
         System.out.println("\n------------------ Test 6 ------------------");
-        SearchTerm = "over";
+        SearchTerm = "nlp after text classification";
         search = SearchTerm.split(" ");
         queryResult = pi.phraseQuery(search);
-        for(Doc doc:queryResult) System.out.println("Document ID is : " + doc.docId);
+        System.out.println("Search Term: " + SearchTerm);
+        for(Doc doc:queryResult) System.out.println("Search Result: Document ID is : " + doc.docId);
+
+
+        System.out.println("\n------------------ Test 7 ------------------");
+        SearchTerm = "data warehouse over";
+        search = SearchTerm.split(" ");
+        queryResult = pi.phraseQuery(search);
+        System.out.println("Search Term: " + SearchTerm);
+        for(Doc doc:queryResult) System.out.println("Search Result: Document ID is : " + doc.docId);
     }
 }
 
