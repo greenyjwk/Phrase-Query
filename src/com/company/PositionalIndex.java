@@ -1,7 +1,6 @@
 package com.company;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -110,7 +109,6 @@ public class PositionalIndex {
                 }
             }
         }
-
         return intersectList;
     }
 
@@ -142,7 +140,6 @@ public class PositionalIndex {
                 queryResult = intersect(posting1, posting2);
             } else System.out.println("The words are not searched in the list");
         }
-
         return queryResult;
     }
 
@@ -154,8 +151,6 @@ public class PositionalIndex {
                 "nlp after text classification"};
 
         PositionalIndex pi = new PositionalIndex(docs);
-        System.out.print(pi.docLists);
-        System.out.println();
 
         //TASK4: TO BE COMPLETED: design and test phrase queries with 2-5 terms
         System.out.println("\n------------------ Test 1 ------------------");
@@ -163,7 +158,8 @@ public class PositionalIndex {
         String[] search = SearchTerm.split(" ");
         ArrayList<Doc> queryResult = pi.phraseQuery(search);
         System.out.println("Search Term: " + SearchTerm);
-        for(Doc doc:queryResult) System.out.println("Document ID is : " + doc.docId);
+        for(Doc doc:queryResult) System.out.println("Search Result(Document ID) : " + doc.docId);
+        System.out.println("Search Result(ArrayList format): " + queryResult);
 
 
         System.out.println("\n------------------ Test 2 ------------------");
@@ -171,7 +167,8 @@ public class PositionalIndex {
         search = SearchTerm.split(" ");
         queryResult = pi.phraseQuery(search);
         System.out.println("Search Term: " + SearchTerm);
-        for(Doc doc:queryResult) System.out.println("Search Result: Document ID is : " + doc.docId);
+        for(Doc doc:queryResult) System.out.println("Search Result(Document ID) : " + doc.docId);
+        System.out.println("Search Result(ArrayList format): " + queryResult);
 
 
         System.out.println("\n------------------ Test 3 ------------------");
@@ -179,7 +176,8 @@ public class PositionalIndex {
         search = SearchTerm.split(" ");
         queryResult = pi.phraseQuery(search);
         System.out.println("Search Term: " + SearchTerm);
-        for(Doc doc:queryResult) System.out.println("Search Result: Document ID is : " + doc.docId);
+        for(Doc doc:queryResult) System.out.println("Search Result(Document ID) : " + doc.docId);
+        System.out.println("Search Result(ArrayList format): " + queryResult);
 
 
         System.out.println("\n------------------ Test 4 ------------------");
@@ -187,7 +185,8 @@ public class PositionalIndex {
         search = SearchTerm.split(" ");
         queryResult = pi.phraseQuery(search);
         System.out.println("Search Term: " + SearchTerm);
-        for(Doc doc:queryResult) System.out.println("Search Result: Document ID is : " + doc.docId);
+        for(Doc doc:queryResult) System.out.println("Search Result(Document ID) : " + doc.docId);
+        System.out.println("Search Result(ArrayList format): " + queryResult);
 
 
         System.out.println("\n------------------ Test 5 ------------------");
@@ -195,22 +194,34 @@ public class PositionalIndex {
         search = SearchTerm.split(" ");
         queryResult = pi.phraseQuery(search);
         System.out.println("Search Term: " + SearchTerm);
-        for(Doc doc:queryResult) System.out.println("Search Result: Document ID is : " + doc.docId);
+        for(Doc doc:queryResult) System.out.println("Search Result(Document ID) : " + doc.docId);
+        System.out.println("Search Result(ArrayList format): " + queryResult);
 
         System.out.println("\n------------------ Test 6 ------------------");
-        SearchTerm = "nlp after text classification";
-        search = SearchTerm.split(" ");
-        queryResult = pi.phraseQuery(search);
-        System.out.println("Search Term: " + SearchTerm);
-        for(Doc doc:queryResult) System.out.println("Search Result: Document ID is : " + doc.docId);
-
-
-        System.out.println("\n------------------ Test 7 ------------------");
         SearchTerm = "data warehouse over";
         search = SearchTerm.split(" ");
         queryResult = pi.phraseQuery(search);
         System.out.println("Search Term: " + SearchTerm);
-        for(Doc doc:queryResult) System.out.println("Search Result: Document ID is : " + doc.docId);
+        for(Doc doc:queryResult) System.out.println("Search Result(Document ID) : " + doc.docId);
+        System.out.println("Search Result(ArrayList format): " + queryResult);
+
+
+        System.out.println("\n------------------ Test 7 ------------------");
+        SearchTerm = "nlp after text classification";
+        search = SearchTerm.split(" ");
+        queryResult = pi.phraseQuery(search);
+        System.out.println("Search Term: " + SearchTerm);
+        for(Doc doc:queryResult) System.out.println("Search Result(Document ID) : " + doc.docId);
+        System.out.println("Search Result(ArrayList format): " + queryResult);
+
+
+        System.out.println("\n------------------ Test 8 ------------------");
+        SearchTerm = "dimension data warehouse over big data";
+        search = SearchTerm.split(" ");
+        queryResult = pi.phraseQuery(search);
+        System.out.println("Search Term: " + SearchTerm);
+        for(Doc doc:queryResult) System.out.println("Search Result(Document ID) : " + doc.docId);
+        System.out.println("Search Result(ArrayList format): " + queryResult);
     }
 }
 
